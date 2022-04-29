@@ -2,7 +2,7 @@ class Particle {
     constructor() {
         this.pos = createVector(width / 2, height / 2);
         this.rays = [];
-        for (let a = 0; a < 360; a += 10) {
+        for (let a = 0; a < 360; a += 3) {
             this.rays.push(new Ray(this.pos, radians(a)));
         }
     }
@@ -15,11 +15,23 @@ class Particle {
         }
     }
 
-    look(wall) {
+    look(walls) {
         for (let ray of this.rays) {
-            const point = ray.cast(wall);
-            if (point) {
-                line(this.pos.x, this.pos.y, point.x, point.y);
+            let closest = null;
+            let record = Infinity; //we need to cast on the closest wall only
+            for (let wall of walls) {
+                const point = ray.cast(wall);
+
+                if (point) {
+                    const d = p5.Vector.dist(this.pos, point); //find the distance between pos and the current wall
+                    if (d < record) { //update to the closest wall
+                        record = d;
+                        closest = point;
+                    }
+                }
+            }
+            if (closest) {
+                line(this.pos.x, this.pos.y, closest.x, closest.y);
             }
         }
     }
