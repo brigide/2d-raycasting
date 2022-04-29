@@ -1,7 +1,13 @@
 class Ray {
-    constructor(x, y) {
-        this.pos = createVector(x, y);
-        this.dir = createVector(1, 1);
+    constructor(pos, angle) {
+        this.pos = pos;
+        this.dir = p5.Vector.fromAngle(angle);
+    }
+
+    lookAt(x, y) {
+        this.dir.x = x - this.pos.x;
+        this.dir.y = y - this.pos.y;
+        this.dir.normalize();
     }
 
     show() {
@@ -31,7 +37,11 @@ class Ray {
 
         // if 0 < t < 1 and 0 < u then the lines intercept
         if (t > 0 && t < 1 && u > 0) {
-            return true;
+            // finding the exact intercept point
+            const point = createVector();
+            point.x = x1 + t * (x2 - x1);
+            point.y = y1 + t * (y2 - y1);
+            return point;
         }
         return;
     }
