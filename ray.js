@@ -45,4 +45,8 @@ class Ray {
         }
         return;
     }
+
+    setAngle(angle) {
+        this.dir = p5.Vector.fromAngle(angle);
+    }
 }

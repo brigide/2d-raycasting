@@ -2,8 +2,16 @@ class Particle {
     constructor() {
         this.pos = createVector(width / 2, height / 2);
         this.rays = [];
-        for (let a = 0; a < 360; a += 1) {
+        this.heading = 0;
+        for (let a = 0; a < 80; a += 1) {
             this.rays.push(new Ray(this.pos, radians(a)));
+        }
+    }
+
+    rotate(angle) {
+        this.heading += angle;
+        for (let i = 0; i < this.rays.length; i++) {
+            this.rays[i].setAngle(radians(i) + this.heading);
         }
     }
 
